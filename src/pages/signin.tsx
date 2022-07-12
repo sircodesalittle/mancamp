@@ -34,7 +34,7 @@ export default function SignIn({ user }: { user: User | null }) {
   };
 
   const onSendCodeClick = () => {
-    if (appVerifier.current) {
+    if (appVerifier.current && recaptchaVerified) {
       signInWithPhoneNumber(auth, cleanPhoneNumber(), appVerifier.current)
         .then((receivedConfirmation) => {
           // SMS sent. Prompt user to type the code from the message, then sign the
@@ -78,7 +78,7 @@ export default function SignIn({ user }: { user: User | null }) {
         size: "invisible",
         callback: (response: any) => {
           console.log(response);
-          setRecaptchaVerified(false);
+          setRecaptchaVerified(true);
         },
       },
       auth
@@ -86,6 +86,7 @@ export default function SignIn({ user }: { user: User | null }) {
     if (appVerifier.current) {
       appVerifier.current.render().then((widgetId: any) => {
         window.recaptchaWidgetId = widgetId;
+        appVerifier.current?.verify();
       });
     }
   }, [auth]);
@@ -136,7 +137,7 @@ export default function SignIn({ user }: { user: User | null }) {
           <button
             type="button"
             className={
-              "nes-btn " + (recaptchaVerified ? "is-disabled" : "is-primary")
+              "nes-btn " + (!recaptchaVerified ? "is-disabled" : "is-primary")
             }
             onClick={() => {
               onSendCodeClick();
