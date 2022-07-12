@@ -17,7 +17,7 @@ function App() {
         setUser(null);
       }
     });
-  }, []);
+  }, [auth]);
 
   const onSignOutClick = () => {
     auth.signOut();
