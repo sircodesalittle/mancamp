@@ -53,15 +53,22 @@ export default function Home({ user }: { user: User | null }) {
           </div>
 
           {!user && (
-            <Link to="/signin">
-              <button
-                type="button"
-                id="signUpButton"
-                className="nes-btn is-primary"
-              >
-                Sign Up Now
-              </button>
-            </Link>
+            <>
+              <Link to="/signin">
+                <button
+                  type="button"
+                  id="signUpButton"
+                  className="nes-btn is-primary"
+                >
+                  Sign Up Now*
+                </button>
+              </Link>
+              <p style={{ fontSize: ".65rem" }}>
+                *Sign ups are to gauge interest and availability. A registration
+                link will follow in the coming weeks, so sign up now to be in
+                the know.
+              </p>
+            </>
           )}
         </section>
       </section>
