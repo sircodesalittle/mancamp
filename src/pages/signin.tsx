@@ -3,11 +3,12 @@ import {
   signInWithPhoneNumber,
   RecaptchaVerifier,
   ConfirmationResult,
-  updateProfile,
   User,
+  UserCredential,
 } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 declare global {
   interface Window {
@@ -17,16 +18,15 @@ declare global {
   }
 }
 
-export default function SignIn({ user }: { user: User | null }) {
+export default function SignIn() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [code, setCode] = useState("");
   let appVerifier = useRef<RecaptchaVerifier>();
   let confirmationResult = useRef<ConfirmationResult>();
-  const auth = getAuth();
   const [recaptchaVerified, setRecaptchaVerified] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
-  const [isNewUser, setIsNewUser] = useState(false);
-  const [displayNameInput, setDisplayNameInput] = useState("");
+  const auth = useAuth();
+  const firebaseAuth = getAuth();
 
   const cleanPhoneNumber = () => {
     let cleanPhoneNumber = phoneNumber.replace(/\D/g, "");
@@ -35,7 +35,11 @@ export default function SignIn({ user }: { user: User | null }) {
 
   const onSendCodeClick = () => {
     if (appVerifier.current && recaptchaVerified) {
-      signInWithPhoneNumber(auth, cleanPhoneNumber(), appVerifier.current)
+      signInWithPhoneNumber(
+        firebaseAuth,
+        cleanPhoneNumber(),
+        appVerifier.current
+      )
         .then((receivedConfirmation) => {
           // SMS sent. Prompt user to type the code from the message, then sign the
           // user in with confirmationResult.confirm(code).
@@ -43,31 +47,16 @@ export default function SignIn({ user }: { user: User | null }) {
           confirmationResult.current = receivedConfirmation;
         })
         .catch((error) => {
-          console.log();
+          console.log(error);
         });
     }
   };
 
   const onVerifyCodeClick = () => {
-    confirmationResult.current?.confirm(code).then((result) => {
-      if (!result.user.displayName) {
-        setIsNewUser(true);
-      }
+    // TODO handle error
+    confirmationResult.current?.confirm(code).then((value: UserCredential) => {
+      auth.signIn(value.user);
     });
-  };
-
-  const onUpdateDisplayNameClick = (name: string) => {
-    if (auth.currentUser) {
-      updateProfile(auth.currentUser, {
-        displayName: name,
-      })
-        .then(() => {
-          console.log("user updated");
-        })
-        .catch((error) => {
-          console.error("user could not be updated");
-        });
-    }
   };
 
   useEffect(() => {
@@ -81,7 +70,7 @@ export default function SignIn({ user }: { user: User | null }) {
           setRecaptchaVerified(true);
         },
       },
-      auth
+      firebaseAuth
     );
     if (appVerifier.current) {
       appVerifier.current.render().then((widgetId: any) => {
@@ -89,11 +78,11 @@ export default function SignIn({ user }: { user: User | null }) {
         appVerifier.current?.verify();
       });
     }
-  }, [auth]);
+  }, [firebaseAuth]);
 
   return (
     <div className="container">
-      {user && (
+      {auth.user && (
         <main className="main-content">
           <p>Thanks for signing up!</p>
           <p>
@@ -120,7 +109,7 @@ export default function SignIn({ user }: { user: User | null }) {
           </div> */}
         </main>
       )}
-      {!user && (
+      {!auth.user && (
         <main className="main-content">
           <h1>Sign In</h1>
           <p>Get started or sign in by entering your phone number</p>
@@ -164,66 +153,13 @@ export default function SignIn({ user }: { user: User | null }) {
                 />
               </div>
               <button
+                onClick={() => {
+                  onVerifyCodeClick();
+                }}
                 type="button"
                 className={"nes-btn is-primary"}
-                onClick={() => onVerifyCodeClick()}
               >
                 Verify
-              </button>
-            </div>
-          )}
-
-          {isNewUser && (
-            <div>
-              <div className="nes-field">
-                <label htmlFor="code_field">Your Name</label>
-                <input
-                  type="text"
-                  id="code_field"
-                  className="nes-input"
-                  value={displayNameInput}
-                  onChange={(e) => {
-                    setDisplayNameInput(e.target.value);
-                  }}
-                />
-              </div>
-              {/* <section className="showcase">
-              <section className="nes-container with-title">
-                <h3 className="title">Sign Up</h3>
-                <div className="nes-field">
-                  <label htmlFor="name_field">Your name</label>
-                  <input
-                    type="text"
-                    id="name_field"
-                    className="nes-input"
-                  ></input>
-                </div>
-
-                <div className="nes-field">
-                  <label htmlFor="name_field">Emergency Contact Name</label>
-                  <input
-                    type="text"
-                    id="name_field"
-                    className="nes-input"
-                  ></input>
-                </div>
-
-                <div className="nes-field">
-                  <label htmlFor="name_field">Emergency Contact Number</label>
-                  <input
-                    type="text"
-                    id="name_field"
-                    className="nes-input"
-                  ></input>
-                </div>
-              </section>
-            </section> */}
-              <button
-                type="button"
-                className={"nes-btn is-primary"}
-                onClick={() => onUpdateDisplayNameClick(displayNameInput)}
-              >
-                Submit
               </button>
             </div>
           )}

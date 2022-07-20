@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/mc-admin/node_modules
+/mc-admin/admin-sdk.json

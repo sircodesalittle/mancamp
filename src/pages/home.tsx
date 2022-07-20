@@ -1,10 +1,21 @@
-import { User } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
-export default function Home({ user }: { user: User | null }) {
+export default function Home() {
+  const auth = useAuth();
+
   return (
     <>
       <section className="topic">
+        <Link to="/register">
+          <button
+            type="button"
+            style={{ width: "100%" }}
+            className="nes-btn is-primary"
+          >
+            Register
+          </button>
+        </Link>
         <section className="nes-container with-title">
           <h3 className="title">Event Info</h3>
           <h2 className="nes-text is-success">Where</h2>
@@ -52,7 +63,7 @@ export default function Home({ user }: { user: User | null }) {
             </ul>
           </div>
 
-          {!user && (
+          {!auth.user && (
             <>
               <Link to="/signin">
                 <button
