@@ -7,15 +7,17 @@ export default function Home() {
   return (
     <>
       <section className="topic">
-        <Link to="/register">
-          <button
-            type="button"
-            style={{ width: "100%" }}
-            className="nes-btn is-primary"
-          >
-            Register
-          </button>
-        </Link>
+        {auth.user && (
+          <Link to="/register">
+            <button
+              type="button"
+              style={{ width: "100%" }}
+              className="nes-btn is-primary"
+            >
+              Register
+            </button>
+          </Link>
+        )}
         <section className="nes-container with-title">
           <h3 className="title">Event Info</h3>
           <h2 className="nes-text is-success">Where</h2>
@@ -69,7 +71,8 @@ export default function Home() {
                 <button
                   type="button"
                   id="signUpButton"
-                  className="nes-btn is-primary"
+                  className="nes-btn"
+                  style={{ width: "100%" }}
                 >
                   Sign Up Now*
                 </button>

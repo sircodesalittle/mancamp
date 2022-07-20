@@ -3,8 +3,6 @@ import {
   signInWithPhoneNumber,
   RecaptchaVerifier,
   ConfirmationResult,
-  User,
-  UserCredential,
 } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -25,6 +23,7 @@ export default function SignIn() {
   let confirmationResult = useRef<ConfirmationResult>();
   const [recaptchaVerified, setRecaptchaVerified] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
+  const [codeValid, setCodeValid] = useState(true);
   const auth = useAuth();
   const firebaseAuth = getAuth();
 
@@ -53,10 +52,17 @@ export default function SignIn() {
   };
 
   const onVerifyCodeClick = () => {
-    // TODO handle error
-    confirmationResult.current?.confirm(code).then((value: UserCredential) => {
-      auth.signIn(value.user);
-    });
+    setCodeValid(true);
+    confirmationResult.current
+      ?.confirm(code)
+      .catch(() => {
+        setCodeValid(false);
+      })
+      .then((value) => {
+        if (value) {
+          auth.signIn(value.user);
+        }
+      });
   };
 
   useEffect(() => {
@@ -161,6 +167,12 @@ export default function SignIn() {
               >
                 Verify
               </button>
+              {!codeValid && (
+                <p className="nes-text is-error">
+                  Invalid code, try again or double check the phone number is
+                  correct
+                </p>
+              )}
             </div>
           )}
         </main>
