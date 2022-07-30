@@ -5,7 +5,7 @@ import {
   ConfirmationResult,
 } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 declare global {

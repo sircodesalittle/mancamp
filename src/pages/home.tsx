@@ -58,6 +58,7 @@ export default function Home() {
           <div className="speaker">
             <img
               className="avatar"
+              alt="Zack shaffer profile"
               src="https://media-exp1.licdn.com/dms/image/C5603AQEIv2zB2FSN9g/profile-displayphoto-shrink_400_400/0/1657405864166?e=1664409600&v=beta&t=0qsfTJ8FxEICRqyAbpehS-sjHmLeRQ1PaCi94pZ16WE"
             />
             <h3 className="nes-text" style={{ paddingLeft: "10px" }}>

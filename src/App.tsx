@@ -3,7 +3,7 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/signin";
 import Home from "./pages/home";
 import Registration from "./pages/registration";
-import { AuthProvider, useAuth } from "./AuthContext";
+import { AuthProvider } from "./AuthContext";
 import { Header } from "./components/Header";
 import { WhiteWaterForm } from "./pages/whitewaterform";
 import { Pay } from "./pages/pay";
@@ -11,7 +11,6 @@ import { Schedule } from "./components/Schedule";
 import { PackingList } from "./pages/packing-list";
 
 function App() {
-  const auth = useAuth();
   return (
     <AuthProvider>
       <BrowserRouter>
