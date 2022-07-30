@@ -73,7 +73,7 @@ function Registration() {
         />
       </div>
       <div className="nes-field">
-        <label htmlFor="email_field">Your name</label>
+        <label htmlFor="email_field">Email</label>
         <input
           type="text"
           id="email_field"
