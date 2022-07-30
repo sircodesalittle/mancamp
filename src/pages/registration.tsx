@@ -22,6 +22,7 @@ function Registration() {
       let profileUpdate = { ...auth.profile };
       profileUpdate.progress.registered = true;
       profileUpdate.name = registrationForm.name;
+      profileUpdate.email = registrationForm.email;
       profileUpdate.tShirtSize = registrationForm.tShirtSize;
       profileUpdate.dietaryRestrictions = registrationForm.diet;
       profileUpdate.iceName = registrationForm.iceName;

@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "esm": "^3.2.25",
-    "firebase-admin": "^11.0.0"
+    "firebase-admin": "^11.0.0",
+    "twilio": "^3.80.0"
   }
 }
