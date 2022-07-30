@@ -1,4 +1,3 @@
-import { profile } from "console";
 import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   getDocs,
