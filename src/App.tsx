@@ -20,7 +20,7 @@ function App() {
             <main className="main-content">
               <Link to="/schedule">
                 <button
-                  style={{ marginRight: "10px" }}
+                  style={{ marginRight: "10px", fontSize: ".5em" }}
                   type="button"
                   className="nes-btn"
                 >
@@ -28,7 +28,11 @@ function App() {
                 </button>
               </Link>
               <Link to="/packing-list">
-                <button type="button" className="nes-btn ">
+                <button
+                  type="button"
+                  className="nes-btn "
+                  style={{ marginRight: "10px", fontSize: ".5em" }}
+                >
                   Packing List
                 </button>
               </Link>
