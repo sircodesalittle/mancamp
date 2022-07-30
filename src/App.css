@@ -164,7 +164,6 @@ body {
 
 .speaker {
   display: grid;
-  padding: 2rem;
   grid-template-columns: 100px 1fr;
   gap: 1rem;
   align-items: center;

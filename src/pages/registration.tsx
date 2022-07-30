@@ -61,7 +61,7 @@ function Registration() {
 
   return (
     <>
-      <h1>Registration</h1>
+      <h1>Register</h1>
       <div className="nes-field">
         <label htmlFor="name_field">Your name</label>
         <input
