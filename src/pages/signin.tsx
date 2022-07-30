@@ -5,7 +5,7 @@ import {
   ConfirmationResult,
 } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 declare global {
@@ -26,6 +26,7 @@ export default function SignIn() {
   const [codeValid, setCodeValid] = useState(true);
   const auth = useAuth();
   const firebaseAuth = getAuth();
+  const navigate = useNavigate();
 
   const cleanPhoneNumber = () => {
     let cleanPhoneNumber = phoneNumber.replace(/\D/g, "");
@@ -61,6 +62,7 @@ export default function SignIn() {
       .then((value) => {
         if (value) {
           auth.signIn(value.user);
+          navigate("/");
         }
       });
   };
@@ -88,33 +90,6 @@ export default function SignIn() {
 
   return (
     <div className="container">
-      {auth.user && (
-        <main className="main-content">
-          <p>Thanks for signing up!</p>
-          <p>
-            We'll keep you in the loop with any updates or if we need anything
-            from you.
-          </p>
-          <Link to="/">
-            <button className="nes-btn">Home</button>
-          </Link>
-          {/* <h3>See who else is going</h3>
-          auth.
-          <div className="cards">
-            <section className="nes-container is-dark member-card">
-              <div className="profile">
-                <h4 className="name">B.C.Rikko</h4> <p>Creator of NES.css</p>{" "}
-              </div>
-            </section>
-
-            <section className="nes-container is-dark member-card">
-              <div className="profile">
-                <h4 className="name">B.C.Rikko</h4> <p>Creator of NES.css</p>{" "}
-              </div>
-            </section>
-          </div> */}
-        </main>
-      )}
       {!auth.user && (
         <main className="main-content">
           <h1>Sign In</h1>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import { Progress } from "../components/Progress";
 
 export default function Home() {
   const auth = useAuth();
@@ -7,17 +8,7 @@ export default function Home() {
   return (
     <>
       <section className="topic">
-        {auth.user && (
-          <Link to="/register">
-            <button
-              type="button"
-              style={{ width: "100%" }}
-              className="nes-btn is-primary"
-            >
-              Register
-            </button>
-          </Link>
-        )}
+        {auth.user && <Progress />}
         <section className="nes-container with-title">
           <h3 className="title">Event Info</h3>
           <h2 className="nes-text is-success">Where</h2>

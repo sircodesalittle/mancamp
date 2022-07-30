@@ -3,8 +3,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/signin";
 import Home from "./pages/home";
 import Registration from "./pages/registration";
-import { AuthProvider } from "./AuthContext";
+import { AuthProvider, useAuth } from "./AuthContext";
 import { Header } from "./components/Header";
+import { WhiteWaterForm } from "./pages/whitewaterform";
+import { Pay } from "./pages/pay";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/register" element={<Registration />} />
+                <Route path="/whitewater" element={<WhiteWaterForm />} />
+                <Route path="/pay" element={<Pay />} />
               </Routes>
             </main>
           </div>
